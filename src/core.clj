@@ -54,8 +54,7 @@
   If time is Monday 1300h, and hour is 18 (1800), return Monday 1800."
   [time hour]
   (let [maybe-next (t/adjust time (t/local-time hour))]
-    (if (= (t/max time maybe-next) time)
-      ;; maybe-next is before time
+    (if (< maybe-next time)
       (t/plus maybe-next (t/days 1))
       maybe-next)))
 
