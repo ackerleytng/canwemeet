@@ -97,5 +97,5 @@
 
 (defn -main [& args]
   (if (not (< 0 (count args) 2))
-    (println usage)
+    (println (usage))
     (println (meet-info (user-time) (first args)))))
