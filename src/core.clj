@@ -85,16 +85,19 @@
 (defn meet-info [user-time-now address]
   (let [location (geocode address)
         data (merge location (time-zone (:latlng location)))]
-    (s/join "\n" (format-output-lines user-time-now data))))
+    (format-output-lines user-time-now data)))
 
 (defn usage []
-  (s/join
-   "\n"
-   ["Usage: canwemeet ADDRESS-OR-LOCATION"
-    "Example:"
-    "  canwemeet austin"]))
+  ["Usage: canwemeet ADDRESS-OR-LOCATION"
+   "Example:"
+   "  canwemeet austin"])
 
 (defn -main [& args]
-  (if (not (< 0 (count args) 2))
-    (println (usage))
-    (println (meet-info (user-time) (first args)))))
+  (println
+   (s/join
+    "\n"
+    (if (not (< 0 (count args) 2))
+      (usage)
+      (meet-info (user-time) (first args))))))
+
+(-main ["austin"])
