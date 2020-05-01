@@ -54,14 +54,23 @@
   If time is Monday 1300h, and hour is 18 (1800), return Monday 1800."
   [time hour]
   (let [maybe-next (t/adjust time (t/local-time hour))]
-    (if (< maybe-next time)
+    (if (= (t/max time maybe-next) time)
+      ;; maybe-next is before time
       (t/plus maybe-next (t/days 1))
       maybe-next)))
 
 (def ranges
-  {"Their mornings are" [5 10]
-   "They are at work" [10 17]
-   "Their evenings are" [17 23]})
+  {:morning [5 10]
+   :working [10 17]
+   :evening [17 23]})
+
+(def range-wordings
+  {:morning "Their mornings are"
+   :working "They are at work"
+   :evening "Their evenings are"})
+
+(def wording-times
+  (map #(map % [range-wordings ranges]) (keys range-wordings)))
 
 (defn format-range [user-time-now their-time-now [range [l h]]]
   (let [low (t/format "h a" (t/with-zone-same-instant
@@ -79,7 +88,7 @@
   (let [their-time-now (t/with-zone-same-instant user-time-now time-zone-id)
         header (str (s/join " " [formatted "is in the" time-zone "time zone"])
                     (if dst-observed " (DST is observed now)"))
-        times (map (partial format-range user-time-now their-time-now) ranges)]
+        times (map (partial format-range user-time-now their-time-now) wording-times)]
     (concat [header] times)))
 
 (defn meet-info [user-time-now address]
