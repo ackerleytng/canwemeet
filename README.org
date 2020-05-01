@@ -1,0 +1,32 @@
+* canwemeet
+
+A quick tool to determine a good time to call, given my (Ackerley's) call time
+preferences.
+
+** Compile
+
+> Run it on the repl if you're familiar with clojure!
+
+#+BEGIN_SRC bash
+$ clojure -A:uberjar
+Compiling core ...
+Building uber jar: canwemeet/canwemeet.jar
+Processing pom.xml for {canwemeet/canwemeet {:mvn/version "0.1.0"}}
+$
+#+END_SRC
+
+** Usage
+
+Make sure your system clock and timezone is set correctly, then
+
+#+BEGIN_SRC bash
+$ export APIKEY=google-api-key-for-geocoding-and-time-zone
+$ java -jar canwemeet.jar "austin"
+Tell them you want to meet at 10 AM, Fri 1 May, their time
+That's 11 PM, Fri 1 May, your time
+Austin, TX, USA is in the Central Daylight Time time zone (DST is observed now)
+Their mornings are between 6 pm and 11 pm your time
+They are at work between 11 pm and 6 am your time
+Their evenings are between 6 am and 12 pm your time
+$
+#+END_SRC
