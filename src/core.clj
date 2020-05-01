@@ -60,7 +60,7 @@
 
 (def ranges
   {"Their mornings are" [5 10]
-   "They are in the office" [10 17]
+   "They are at work" [10 17]
    "Their evenings are" [17 23]})
 
 (defn format-range [user-time-now their-time-now [range [l h]]]
@@ -90,7 +90,12 @@
 (defn usage []
   ["Usage: canwemeet ADDRESS-OR-LOCATION"
    "Example:"
-   "  canwemeet austin"])
+   "  canwemeet austin"
+   ""
+   "I'm using the following definitions:"
+   "  + Mornings: 5 am to 10 am"
+   "  + Working hours: 10 am to 5 pm"
+   "  + Evenings: 5 pm to 11 pm"])
 
 (defn -main [& args]
   (println
