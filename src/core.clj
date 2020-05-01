@@ -4,12 +4,13 @@
             [java-time :as t]
             [clojure.string :as s]))
 
-(def api-key (or (System/getenv "APIKEY")
-                 (throw (Exception. "Please set APIKEY as environment variable"))))
+(defn api-key []
+  (or (System/getenv "APIKEY")
+      (throw (Exception. "Please set APIKEY as environment variable"))))
 
 (defn geocode [address]
   (let [extract (juxt :formatted_address (comp :location :geometry))
-        params {"key" api-key
+        params {"key" (api-key)
                 "address" address}
         resp (client/get
               "https://maps.googleapis.com/maps/api/geocode/json"
@@ -31,7 +32,7 @@
                 ;;   time zone information, will rely on java's time zone for
                 ;;   DST adjustments
                 "timestamp" (.toEpochSecond (t/zoned-date-time))
-                "key" api-key}
+                "key" (api-key)}
         resp (client/get "https://maps.googleapis.com/maps/api/timezone/json"
                          {:as :json
                           :query-params params})
